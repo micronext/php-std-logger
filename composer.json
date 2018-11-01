@@ -1,0 +1,42 @@
+{
+    "name": "micronext/php-std-logger",
+    "type": "library",
+    "description": "Simple PHP Logger library that output data to console's stdout/stderr in depends of LogLevel. Implements interfaces defined by PSR-3",
+    "keywords": ["logging", "log", "psr-3", "simple", "pure", "codestyle", "stdout", "stderr", "std", "php", "phpfig", "psr", "psr-4", "console"],
+    "homepage": "https://github.com/micronext/php-std-logger",
+    "license": "MIT",
+    "version": "1.0.1",
+    "authors": [
+        {
+            "name": "MicroNext",
+            "homepage": "https://github.com/micronext",
+            "role": "Owner"
+        },
+        {
+            "name": "Yevhenii Ivanets",
+            "homepage": "https://github.com/ivanets",
+            "email": "evgeniyivanets@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "optimize-autoloader": true,
+        "psr-4": {
+            "MicroNext\\Console\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.1.0",
+        "psr/log": "^1.0"
+    },
+    "scripts": {
+        "clean": "rm ./.php_cs.cache || true && rm -rf ./vendor || true && rm ./phpcs || true",
+        "fetch-phpcs-bin": "curl -L https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -o ./phpcs && chmod a+x ./phpcs",
+        "codestyle": "composer run fetch-phpcs-bin && composer dump-autoload && php ./phpcs fix ./src --verbose --show-progress=dots --allow-risky=yes --rules=@Symfony,@PSR2",
+        "tar": "composer archive --dir=./releases --format=tar.gz",
+        "build": "composer run clean && composer install && composer run codestyle && composer run tar"
+    },
+    "archive": {
+        "exclude": ["/phpcs", "/*.test*", "/vendor"]
+    }
+}
