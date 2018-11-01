@@ -61,7 +61,7 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * @api
      *
-     * @param mixed  $level   if empty, will use `LogLevel::DEBUG` fallback
+     * @param mixed  $level if empty, will use `LogLevel::DEBUG` fallback
      * @param string $message
      * @param array  $context
      */
