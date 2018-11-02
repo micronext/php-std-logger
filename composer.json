@@ -36,7 +36,7 @@
         "fetch-phpcs-bin": "curl -L https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -o ./phpcs && chmod a+x ./phpcs",
         "codestyle": "composer run fetch-phpcs-bin && composer dump-autoload && php ./phpcs fix ./src --verbose --show-progress=dots --allow-risky=yes --rules=@Symfony,@PSR2",
         "tar": "composer archive --dir=./releases --format=tar.gz",
-        "build": "composer run clean && composer install && composer run codestyle && composer run tar",
+        "build": "composer install && composer run codestyle && composer run tar",
         "test": "./vendor/bin/phpunit --colors ./tests"
     },
     "archive": {
