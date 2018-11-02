@@ -1,27 +1,109 @@
 <?php
+/**
+ * MicroNext
+ *
+ * PHP version 7.1
+ *
+ * @category  Library
+ * @package   MicroNext\ConsoleLogger
+ * @copyright Copyright (c) 2018 MicroNext
+ * @license   http://mit-license.org/ MIT License
+ * @link      https://medium.com/@onegin_online
+ */
+/*# declare(strict_types=1); */
 
 namespace MicroNext\Console;
 
+use DateTime;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
- * Class `StdOut\Logger`.
- *
- * @api
- *
- * @author Yevhenii Ivanets <evgeniyivanets@gmail.com>
+ * Logger
+ * ---
  * Outputs logs to `std::out` or `std::err`
+ *
+ * @package MicroNext\Console\Logger
+ * @author  Yevhenii Ivanets <evgeniyivanets@gmail.com>
+ * @see     Psr\Log\AbstractLogger
+ * @see     Psr\Log\LoggerInterface
+ * @see     Psr\Log\LogLevel
+ * @version 1.0.2
+ * @since   1.0.1 added
+ * @since   1.0.2 rename repository and update fields
+ *                moved to structure that allows to add
+ *                dynamic libs in same root scope
  */
 class Logger extends AbstractLogger implements LoggerInterface
 {
+    public const DEFAULT_OUTPUT_TEMPLATE = "~~ --------\n|> {date}\t| [{level}]: {message}{lf}|> Context:\t\t| [{level}]: {context}{lf}~~ --------{lf}";
+    /**
+     * Input:
+     * ```
+     * ~~ --------\n|> {date}\t| [{level}]: {message}{lf}|> Context:\t\t| [{level}]: {context}{lf}~~ --------{lf}
+     * ```
+     *
+     * Render:
+     * ```
+     * ~~ --------
+     * |> 2018-11-01 12:17:11  | [debug]: Test message
+     * |> Context:             | [debug]: test
+     * ~~ --------
+     * ```
+     * @api
+     * @access public
+     * @var string $outputFormat
+     */
+    public $outputFormat = Logger::DEFAULT_OUTPUT_TEMPLATE;
+
     /**
      * @api
-     *
-     * @var string Template
+     * @access public
+	 * @var string $dateFormat
+	 */
+	public $dateFormat = DateTime::RFC2822;
+	/**
+	 * Текущая дата
+	 *
+	 * @return string
+	 */
+	protected function getDate()
+	{
+		return (new DateTime())->format($this->dateFormat);
+	}
+
+    /**
+     * Sets `$format` string for substitutional formatting, that can consists of parts:
+     * - `{date}`
+     * - `{level}`
+     * - `{message}`
+     * - `{context}`
+     * - `{lf}`
+     * ### Example: `"==> {date}\t| [{level}]: {message}{lf}    Context:\t\t{context}{lf}<== -------"`
+     * ### Result:
+     * ```
+     * ==> 2018-11-01 12:17:11   | [debug]: Test message
+     *     Context: "test"
+     * <== -------
+     * echo -e "|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n|  --------"
+     * && echo -e "[warning]\t| 2018-11-01 12:22:23\t| Warning message" && echo -e "[warning]\t| Context:\t\t| test" && echo -e "--------";
+     * echo -e "•• --------\n|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n•• --------"
+     * ```
+     * Result:
+     * ```
+     * echo -e "~~ --------\n|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n~~ --------"
+     * ```
+     * @param  string $format output log format.
+     * @param  int $permissions filesystem permissions
+     * @access public
+     * @since  2.1.0 changed first param
+     * @api
      */
-    public const OUTPUT_FORMAT = " {date}\t| [{level}]: {message}{lf} {date}\t| [{level}]: {context}{lf}---------------------{lf}";
+    public function __construct($outputFormat = Logger::DEFAULT_OUTPUT_TEMPLATE, $dateFormat = DateTime::RSS) {
+        $this->outputFormat = $outputFormat;
+        $this->dateFormat = $dateFormat;
+    }
 
     /**
      * ### Array that defines associations, where we gonna write `$message`, `std::out` or `std::err`
@@ -72,7 +154,7 @@ class Logger extends AbstractLogger implements LoggerInterface
         $data = '';
         if (!empty($context)) {
             try {
-                $json = json_encode($context, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT | JSON_UNESCAPED_SLASHES);
+                $json = json_encode($context, JSON_FORCE_OBJECT | JSON_UNESCAPED_SLASHES);
                 $data .= $json;
             } catch (\Exception $e) {
                 $data = '[X] Error occured when tried to convert additional context to JSON.'.PHP_EOL.'\t'.$e->getMessage();
@@ -83,7 +165,7 @@ class Logger extends AbstractLogger implements LoggerInterface
 
     private function format(string $level, string $message, string $context): string
     {
-        return trim(strtr(self::OUTPUT_FORMAT, [
+        return trim(strtr($this->outputFormat, [
             '{date}' => $this->getDate(),
             '{level}' => $level,
             '{message}' => $message,
