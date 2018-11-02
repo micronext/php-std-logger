@@ -2,6 +2,8 @@
 
 > Designed as simple as possible, following [php-fig](https://www.php-fig.org) PSR's and [codestyle](https://en.wikipedia.org/wiki/Programming_style) tools
 
+## ⚠️ WARNING! Today it's for `PHP_CLI` mode only!
+
 ### Tiny and _simple-first_ **PHP Logger** library that output data to console's `stdout`/`stderr` in depends of `LogLevel`.
 ### Implements interfaces defined by [PSR-3](https://www.php-fig.org/psr/psr-3/).
 
