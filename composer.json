@@ -5,7 +5,7 @@
     "keywords": ["logging", "log", "psr-3", "simple", "pure", "codestyle", "stdout", "stderr", "std", "php", "phpfig", "psr", "psr-4", "console"],
     "homepage": "https://github.com/micronext/php-std-logger",
     "license": "MIT",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "authors": [
         {
             "name": "MicroNext",
