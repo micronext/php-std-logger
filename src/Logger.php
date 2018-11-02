@@ -1,14 +1,15 @@
 <?php
 /**
- * MicroNext
+ * MicroNext.
  *
  * PHP version 7.1
  *
  * @category  Library
- * @package   MicroNext\ConsoleLogger
+ *
  * @copyright Copyright (c) 2018 MicroNext
  * @license   http://mit-license.org/ MIT License
- * @link      https://medium.com/@onegin_online
+ *
+ * @see      https://medium.com/@onegin_online
  */
 /*# declare(strict_types=1); */
 
@@ -22,14 +23,16 @@ use Psr\Log\LogLevel;
 /**
  * Logger
  * ---
- * Outputs logs to `std::out` or `std::err`
+ * Outputs logs to `std::out` or `std::err`.
  *
- * @package MicroNext\Console\Logger
  * @author  Yevhenii Ivanets <evgeniyivanets@gmail.com>
+ *
  * @see     Psr\Log\AbstractLogger
  * @see     Psr\Log\LoggerInterface
  * @see     Psr\Log\LogLevel
+ *
  * @version 1.0.2
+ *
  * @since   1.0.1 added
  * @since   1.0.2 rename repository and update fields
  *                moved to structure that allows to add
@@ -42,7 +45,7 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Input:
      * ```
      * ~~ --------\n|> {date}\t| [{level}]: {message}{lf}|> Context:\t\t| [{level}]: {context}{lf}~~ --------{lf}
-     * ```
+     * ```.
      *
      * Render:
      * ```
@@ -51,27 +54,29 @@ class Logger extends AbstractLogger implements LoggerInterface
      * |> Context:             | [debug]: test
      * ~~ --------
      * ```
+     *
      * @api
-     * @access public
-     * @var string $outputFormat
+     *
+     * @var string
      */
     public $outputFormat = Logger::DEFAULT_OUTPUT_TEMPLATE;
 
     /**
      * @api
-     * @access public
-	 * @var string $dateFormat
-	 */
-	public $dateFormat = DateTime::RFC2822;
-	/**
-	 * Текущая дата
-	 *
-	 * @return string
-	 */
-	protected function getDate()
-	{
-		return (new DateTime())->format($this->dateFormat);
-	}
+     *
+     * @var string
+     */
+    public $dateFormat = DateTime::RFC2822;
+
+    /**
+     * Текущая дата.
+     *
+     * @return string
+     */
+    protected function getDate()
+    {
+        return (new DateTime())->format($this->dateFormat);
+    }
 
     /**
      * Sets `$format` string for substitutional formatting, that can consists of parts:
@@ -93,14 +98,17 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Result:
      * ```
      * echo -e "~~ --------\n|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n~~ --------"
-     * ```
-     * @param  string $format output log format.
-     * @param  int $permissions filesystem permissions
-     * @access public
+     * ```.
+     *
+     * @param string $format      output log format
+     * @param int    $permissions filesystem permissions
+     *
      * @since  2.1.0 changed first param
+     *
      * @api
      */
-    public function __construct($outputFormat = Logger::DEFAULT_OUTPUT_TEMPLATE, $dateFormat = DateTime::RSS) {
+    public function __construct($outputFormat = Logger::DEFAULT_OUTPUT_TEMPLATE, $dateFormat = DateTime::RSS)
+    {
         $this->outputFormat = $outputFormat;
         $this->dateFormat = $dateFormat;
     }
@@ -143,7 +151,7 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * @api
      *
-     * @param mixed  $level if empty, will use `LogLevel::DEBUG` fallback
+     * @param mixed  $level   if empty, will use `LogLevel::DEBUG` fallback
      * @param string $message
      * @param array  $context
      */
