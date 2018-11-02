@@ -13,7 +13,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace MicroNext\Console;
+namespace MicroNext\StdOut;
 
 use DateTime;
 use Psr\Log\AbstractLogger;
@@ -42,19 +42,6 @@ class Logger extends AbstractLogger implements LoggerInterface
 {
     public const DEFAULT_OUTPUT_TEMPLATE = "~~ --------\n|> {date}\t| [{level}]: {message}{lf}|> Context:\t\t| [{level}]: {context}{lf}~~ --------{lf}";
     /**
-     * Input:
-     * ```
-     * ~~ --------\n|> {date}\t| [{level}]: {message}{lf}|> Context:\t\t| [{level}]: {context}{lf}~~ --------{lf}
-     * ```.
-     *
-     * Render:
-     * ```
-     * ~~ --------
-     * |> 2018-11-01 12:17:11  | [debug]: Test message
-     * |> Context:             | [debug]: test
-     * ~~ --------
-     * ```
-     *
      * @api
      *
      * @var string
@@ -79,31 +66,24 @@ class Logger extends AbstractLogger implements LoggerInterface
     }
 
     /**
-     * Sets `$format` string for substitutional formatting, that can consists of parts:
-     * - `{date}`
-     * - `{level}`
-     * - `{message}`
-     * - `{context}`
-     * - `{lf}`
-     * ### Example: `"==> {date}\t| [{level}]: {message}{lf}    Context:\t\t{context}{lf}<== -------"`
-     * ### Result:
-     * ```
-     * ==> 2018-11-01 12:17:11   | [debug]: Test message
-     *     Context: "test"
-     * <== -------
-     * echo -e "|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n|  --------"
-     * && echo -e "[warning]\t| 2018-11-01 12:22:23\t| Warning message" && echo -e "[warning]\t| Context:\t\t| test" && echo -e "--------";
-     * echo -e "•• --------\n|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n•• --------"
-     * ```
-     * Result:
-     * ```
-     * echo -e "~~ --------\n|> 2018-11-01 12:17:11\t| [debug]: Test message\n|> Context:\t\t| [debug]: test\n~~ --------"
-     * ```.
+     * Sets `$format` string for substitutional formatting, that can consists of parts: `{date}`, `{level}`, `{message}`, `{context}`, `{lf}`.
      *
-     * @param string $format      output log format
-     * @param int    $permissions filesystem permissions
+     * ## Example:
+     * ```php
+     * $fmt = `|> {date}\t| [{level}]: {message}{lf}|>|>|> Context:\t\t| [{level}]: {context}{lf}`;
+     * $log = new Logger($fmt);
+     * $log->debug('Test message', ['test']);
+     * ```
+     * ## Output:
+     * ```
+     * |> 2018-11-01 12:17:11  | [debug]: Test message
+     * |>|>|> Context:             | [debug]: test
+     * ```
      *
-     * @since  2.1.0 changed first param
+     * @param string $outputFormat output log format
+     * @param string $dateFormat   DateTimeInterface::constants @see http://php.net/manual/en/class.datetimeinterface.php#datetimeinterface.synopsis
+     *
+     * @since  1.0.4 changed second param
      *
      * @api
      */
@@ -128,7 +108,7 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * @property array(Psr\Log\LogLevel=>std::void) OUT
      *
-     * @since 7.1.0
+     * @since php@7.1.0
      * @see http://php.net/manual/en/language.oop5.constants.php#language.oop5.basic.class.this
      */
     private const OUT = [

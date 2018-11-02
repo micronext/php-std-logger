@@ -1,10 +1,17 @@
-# PHP Console Logger that handles his outputs to stdout/stderr according to LogLevel
+# PHP StdOut Logger for CLI Apps.
+
+## **Purpose:** App Logs outputs to **stdout/stderr** according to **LogLevel** and in **user-defined** format. **IN RUNTIME**!
+
+> And for the hail of Satan, of cource 😈
+
+## **Motivation:** Its might be very helpful for 🐳 Docker fans
 
 > Designed as simple as possible, following [php-fig](https://www.php-fig.org) PSR's and [codestyle](https://en.wikipedia.org/wiki/Programming_style) tools
 
 ## ⚠️ WARNING! Today it's for `PHP_CLI` mode only!
 
 ### Tiny and _simple-first_ **PHP Logger** library that output data to console's `stdout`/`stderr` in depends of `LogLevel`.
+
 ### Implements interfaces defined by [PSR-3](https://www.php-fig.org/psr/psr-3/).
 
 ## Install
@@ -31,7 +38,7 @@ composer install
 namespace YourAmazingApp;
 
 use Psr\Log\LogLevel;
-use MicroNext\Console\Logger;
+use MicroNext\StdOut\Logger;
 
 $logger = new Logger;
 
@@ -43,8 +50,10 @@ $logger->warning("warning test");
 $logger->notice("notice test");
 $logger->info("info test");
 $logger->debug("debug test");
-$logger->log(null, "log test");
+
+// Also, you can call ->log() directly:
 $logger->log(LogLevel::NOTICE, "notice throught log test";
+$logger->log(null, "log test");
 ```
 
 ## Currently `std output` separated to 2 targets:
@@ -79,4 +88,4 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-[2018 © MicroNext](https://github.com/micronext)
+2018 © [MicroNext](https://github.com/micronext) (represented by [Yevhenii Ivanets](https://github.com/ivanets))
